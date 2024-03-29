@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BusYan Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="./styles/manage-user.css" />
+  <link rel="stylesheet" href="./styles/searchbar.css" />
+  <link rel="stylesheet" href="./styles/admin.css" />
+  <link rel="stylesheet" href="./styles/profile.css" />
+  <link rel="stylesheet" href="./styles/modal.css" />
+  <link rel="stylesheet" href="./styles/dashboard.css" />
+  <link rel="stylesheet" href="./styles/notification.css" />
+  <link rel="stylesheet" href="/Common/common.css" />
+</head>
+
+<body>
+  <div class="loader-container">
+    <div class="loader"></div>
+  </div>
+
+  <div class="wrapper">
+    <div class="sidebar">
+      <h2>BusYan</h2>
+
+      <div class="user-detail">
+        <img src="./images/profile.png" alt="profile" />
+        <label for="user name"><strong>Loading...</strong></label>
+        <label for="user role">Loading...</label>
+      </div>
+
+      <ul>
+        <li class="selected-menu">
+          <a href="#" data-target="dashboard">
+            <i class="fas fa-light fa-table-cells selected-menu-text"></i>
+            <span class="selected-menu-text">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-target="manage-user"><i class="fas fa-solid fa-user-group"></i><span>Manage Users</span></a>
+        </li>
+        <li>
+          <a href="#" data-target="notification"><i class="fas fa-regular fa-bell"></i><span>Notification</span></a>
+        </li>
+        <li>
+          <a href="#" data-target="profile"><i class="fas fa-regular fa-user"></i><span>Profile</span></a>
+        </li>
+      </ul>
+
+      <div class="logout">
+        <a href="#" data-target="logout" id="logoutBtn">
+          <i class="fas fa-solid fa-right-from-bracket"></i>
+          <span>Logout</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div>
+          <h2>Add Bus Cooperative</h2>
+          <div class="divider"></div>
+
+          <form action="#" id="addBusCoopForm">
+            <h3 style="text-align: center;">User Details: </h3>
+
+            <img src="./images/profile.png" alt="profile" id="busCoopUserPhoto" />
+            <input type="file" id="busCoopUserPhotoBtn" style="margin-bottom: 25px;">
+            <div class="divider"></div>
+
+            <div class="bus-coop-form-row">
+              <div class="bus-coop-column1">
+                <label for="fullname">Fullname:</label>
+              </div>
+              <div class="bus-coop-column2">
+                <input type="text" id="coopFullname" name="fullname" required>
+              </div>
+            </div>
+            <div class="bus-coop-form-row">
+              <div class="bus-coop-column1">
+                <label for="email">Email:</label>
+              </div>
+              <div class="bus-coop-column2">
+                <input type="text" id="coopFullEmail" name="email" required>
+              </div>
+            </div>
+            <div class="bus-coop-form-row">
+              <div class="bus-coop-column1">
+                <label for="password">Password:</label>
+              </div>
+              <div class="bus-coop-column2">
+                <input type="password" id="password" name="password" required>
+              </div>
+            </div>
+            <div class="bus-coop-form-row">
+              <div class="bus-coop-column1">
+                <label for="confirm-password">Confirm Password:</label>
+              </div>
+              <div class="bus-coop-column2">
+                <input type="password" id="confirm-password" name="confirm-password" required>
+              </div>
+            </div>
+            <div class="bus-coop-form-row">
+              <div class="bus-coop-column1">
+                <label for="phoneNum">Number:</label>
+              </div>
+              <div class="bus-coop-column2">
+                <input type="text" id="phoneNum" name="phoneNum" required>
+              </div>
+            </div>
+            <div class="divider"></div>
+
+            <h3 style="text-align: center;">Bus Cooperative Details: </h3>
+
+            <img src="/Admin/images/upload_company_picture.png" alt="bus cooperative" id="busCoopImgBtn">
+            <input type='file' id="addCoopPhotoBtn" />
+            <div class="divider"></div>
+
+            <div class="bus-coop-form-row">
+              <div class="bus-coop-column1">
+                <label for="companyName">Company Name:</label>
+              </div>
+              <div class="bus-coop-column2">
+                <input type="text" id="companyName" name="companyName" required>
+              </div>
+            </div>
+            <div class="bus-coop-form-row">
+              <div class="bus-coop-column1">
+                <label for="companyAddress">Company Address:</label>
+              </div>
+              <div class="bus-coop-column2">
+                <input type="text" id="companyAddress" name="companyAddress" required>
+              </div>
+            </div>
+            <div class="bus-coop-form-row">
+              <div class="bus-coop-column1">
+                <label for="companyDescription">Company Description:</label>
+              </div>
+              <div class="bus-coop-column2">
+                <textarea id="companyDescription" name="companyDescription" required></textarea>
+              </div>
+            </div>
+            <button type="submit" id="saveBusCoopBtn">SAVE</button>
+          </form>
+
+
+
+        </div>
+      </div>
+    </div>
+
+    <div id="coopModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-between;">
+          <button id="deleteCoopBtn">Delete</button>
+          <span class="coopClose">&times;</span>
+        </div>
+        <div class="divider"></div>
+
+          <img src="./images/profile.png" alt="bus cooperative user" id="busUserCoopImg">
+          <div class="bus-coop-detail" style="flex-direction: row;">
+            <div class="bus-coop-detail-row">            
+              <label for="coopId">ID:</label>
+              <label for="coopFullname">Fullname:</label>
+              <label for="coopEmail">Email:</label>
+              <label for="coopContact">Contact:</label>
+            </div>
+            <div class="bus-coop-detail-row">
+              <span id="coopId">Loading...</span>
+              <span id="coopFullnameSpan">Loadin...</span>
+              <span id="coopEmail">Loading...</span>
+              <span id="coopContact">Loading...</span>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <img src="./images/pitam-logo.png" alt="bus cooperative" id="busCoopImg">
+          <div class="bus-coop-detail" style="flex-direction: row;">
+            <div class="bus-coop-detail-row">            
+              <label for="coopName">Company Name:</label>
+              <label for="coopAddress">Company Address:</label>
+              <label for="coopDesc">Company Description:</label>
+            </div>
+            <div class="bus-coop-detail-row">            
+              <span id="coopName">Loading...</span>
+              <span id="coopAddress">Loading...</span>
+              <span id="coopDesc">Loading...</span>
+            </div>
+          </div>
+          <div class="divider"></div>
+
+      </div>
+    </div>
+
+    <div class="content-container">
+
+      <div class="dashboard content">
+
+        <h1 class="header">Dashboard</h1>
+
+        <div class="container">
+
+          <div class="card">
+            <h3 style="margin-bottom: 50px;">Bus Organizations</h3>
+            <div class="bus-org-content">
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>DATA</h3>
+            <div class="card-content">
+              <div>
+                <canvas id="myChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="manage-user content" style="display: none">
+        <h1 class="header">Manage Users</h1>
+        <div class="container">
+          <div class="card" style="display: flex; flex-direction: column;">
+
+            <div class="wrap">
+              <div class="search">
+                <input id="searchInput" type="text" class="searchTerm" placeholder="Search" />
+                <ul id="searchResults"></ul>
+
+              </div>
+            </div>
+
+            <span>Bus Cooperative</span>
+
+            <button class="button" id="addBusCoopBtn"><i class="fa-solid fa-plus"></i>Add Bus Coop</button>
+            <div class="bus-coop-container">
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="notification content" style="display: none">
+        <h1 class="header">Notifications</h1>
+        <div class="container">
+          <div class="card" >
+            <div class="bus-org-content">
+              <div class="notification-items"><i class="fa-regular fa-user"></i><span class="notif-item">Notification 1</span></div>
+              <div class="notification-items"><i class="fa-regular fa-user"></i><span class="notif-item">Notification 2</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile content" style="display: none">
+        <h1 class="header">Profile</h1>
+        <div class="container">
+          <div class="card">
+
+            <div class="profile-container" style="flex-direction: column; margin-bottom: 30px;">
+              <img src="./images/profile.png" alt="profile" id="profilePhotoId" />
+              <input type="file" id="addProfilePicBtn">
+            </div>
+
+            <div class="profile-container">
+
+              <div class="column">
+                <h2>Profile</h2>
+                <div class="form-group">
+                  <label for="fullname">Full Name:</label>
+                  <input type="text" id="profileFullname" name="profileFullname">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input type="email" id="profileEmail" name="profileEmail">
+                </div>
+                <div class="form-group">
+                  <label for="contact">Contact Number:</label>
+                  <input type="text" id="profileContact" name="profileContact">
+                </div>
+              </div>
+
+              <div class="column">
+                <h2>Password</h2>
+                <div class="form-group">
+                  <label for="oldPassword">Old Password:</label>
+                  <input type="password" id="profileOldPassword" name="profileOldPassword">
+                </div>
+                <div class="form-group">
+                  <label for="newPassword">New Password:</label>
+                  <input type="password" id="profileNewPassword" name="profileNewPassword">
+                </div>
+                <div class="form-group">
+                  <label for="confirmPassword">Confirm New Password:</label>
+                  <input type="password" id="profileConfirmPassword" name="profileConfirmPassword">
+                </div>
+              </div>
+
+            </div>
+
+            <button id="updateProfileButton">Update Profile</button>
+
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js "></script>
+  <script src="./js/dashboard.js" type="module"></script>
+  <script src="./js/manage-user.js" type="module"></script>
+  <script src="./js/notification.js" type="module"></script>
+  <script src="./js/profile.js" type="module"></script>
+  <script src="./js/sidebar.js" type="module"></script>
+  <script src="./js/logout.js" type="module"></script>
+</body>
+
+</html>
