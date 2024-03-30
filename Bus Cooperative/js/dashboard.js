@@ -14,7 +14,7 @@ function generateBusOrganizations() {
     busOrgContainer.innerHTML = "";
     busOrgArray = [];
 
-    const coopRef = database.ref(`${DBPaths.BUS_COOP}`);
+    const coopRef = database.ref(`${DBPaths.BUS_OPS}`);
 
     coopRef.once('value',
         (snapshot) => {
@@ -60,7 +60,7 @@ function generateChart(snapshot) {
     const count = snapshot.numChildren(); // Get the count of children directly from the snapshot
 
     const data = {
-        labels: ['Bus Cooperative'],
+        labels: ['Bus Operators'],
         datasets: [{
             data: [count]
         }]

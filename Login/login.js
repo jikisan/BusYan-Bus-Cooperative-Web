@@ -29,6 +29,7 @@ function loginUser(event) {
               window.location.href = '/Bus Cooperative/admin.html'; // Redirect if credentials match
               accountExists = true; // Set flag to true if account exists
               data["key"] = userKey;
+              console.log(data);
               sessionStorage.setItem('currentUser', JSON.stringify(data));
               return;
             }

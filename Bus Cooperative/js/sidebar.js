@@ -74,7 +74,7 @@ export function fillUserData( ) {
     const imgPlaceHolder = './images/profile.png';
 
     // Set the values
-    imgElement.src = myData.imageUrl || imgPlaceHolder;
+    imgElement.src = myData.userImgSrc || imgPlaceHolder;
     usernameLabel.textContent = convertToPascal(myData.fullName);
-    roleLabel.textContent = 'Bus Operator';
+    roleLabel.textContent = 'Bus Cooperative';
 }

@@ -16,7 +16,6 @@ export const convertToPascal = (str) => {
         // Join the words back into a single string
         return words.join(' ');
     }
-
 }
 
 export const getCurrentDateTimeInMillis = () => {

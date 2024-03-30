@@ -4,7 +4,6 @@ import { DBPaths } from '/Bus Cooperative/js/DB.js';
 import { fillUserData } from '/Bus Cooperative/js/sidebar.js'
 
 const myData = JSON.parse(sessionStorage.getItem('currentUser'));
-const db = getDatabase();
 
 const profilePhoto = document.getElementById('profilePhotoId');
 const fullName = document.getElementById('profileFullname');
@@ -38,10 +37,10 @@ function fillProfile() {
 
     const imgPlaceHolder = '/Bus Cooperative/images/profile.png';
 
-    fullName.value = convertToPascal(myData.fullName) || 'Loading...';
+    fullName.value = myData.fullName || 'Loading...';
     email.value = myData.email || 'Loading...';
     contact.value = myData.phoneNum || 'Loading...';
-    profilePhoto.src = myData.imageUrl || imgPlaceHolder;
+    profilePhoto.src = myData.userImgSrc || imgPlaceHolder;
 }
 
 function saveProfileInDb() {
@@ -50,7 +49,7 @@ function saveProfileInDb() {
     showLoader();
 
     if (profilePicInput && (profilePicInput.files.length === 0 || profilePicInput.value === '')) {
-        updateProfile(myData.imageUrl);
+        updateProfile(myData.userImgSrc);
     } else {
         uploadProfilePhoto();
     }
@@ -119,13 +118,13 @@ function updateProfile(url) {
     const data = {
         fullName: fullName.value,
         email: email.value,
-        imageUrl: url,
+        userImgSrc: url,
         phoneNum: contact.value
     };
-
+    
     if ( data.fullName !== myData.fullName ||
          data.email !== myData.email ||
-         data.imageUrl !== myData.imageUrl ||
+         data.userImgSrc !== myData.userImgSrc ||
          data.phoneNum !== myData.phoneNum){
             const id = myData.key;
             const userRef = firebase.database().ref(`${DBPaths.BUS_COOP}/${id}`);
@@ -134,7 +133,7 @@ function updateProfile(url) {
                 myData.key = id;
                 myData.fullName = data.fullName;
                 myData.email = data.email;
-                myData.imageUrl = data.imageUrl;
+                myData.userImgSrc = data.userImgSrc;
                 myData.phoneNum = data.phoneNum;
 
                 sessionStorage.setItem('currentUser', JSON.stringify(myData));

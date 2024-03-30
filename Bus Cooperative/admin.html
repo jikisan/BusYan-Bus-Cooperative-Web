@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BusYan Admin</title>
+  <title>BusYan Bus Cooperative</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="./styles/manage-user.css" />
   <link rel="stylesheet" href="./styles/searchbar.css" />
@@ -63,89 +63,60 @@
       <div class="modal-content">
         <span class="close">&times;</span>
         <div>
-          <h2>Add Bus Cooperative</h2>
+          <h2>Add Bus Operator</h2>
           <div class="divider"></div>
 
-          <form action="#" id="addBusCoopForm">
+          <form action="#" id="addBusopForm">
             <h3 style="text-align: center;">User Details: </h3>
 
-            <img src="./images/profile.png" alt="profile" id="busCoopUserPhoto" />
-            <input type="file" id="busCoopUserPhotoBtn" style="margin-bottom: 25px;">
+            <img src="./images/profile.png" alt="profile" id="busopUserPhoto" />
+            <input type="file" id="busopUserPhotoBtn" style="margin-bottom: 25px;">
             <div class="divider"></div>
 
-            <div class="bus-coop-form-row">
-              <div class="bus-coop-column1">
+            <div class="bus-op-form-row">
+              <div class="bus-op-column1">
                 <label for="fullname">Fullname:</label>
               </div>
-              <div class="bus-coop-column2">
-                <input type="text" id="coopFullname" name="fullname" required>
+              <div class="bus-op-column2">
+                <input type="text" id="opFullname" name="fullname" required>
               </div>
             </div>
-            <div class="bus-coop-form-row">
-              <div class="bus-coop-column1">
+            <div class="bus-op-form-row">
+              <div class="bus-op-column1">
                 <label for="email">Email:</label>
               </div>
-              <div class="bus-coop-column2">
-                <input type="text" id="coopFullEmail" name="email" required>
+              <div class="bus-op-column2">
+                <input type="text" id="opFullEmail" name="email" required>
               </div>
             </div>
-            <div class="bus-coop-form-row">
-              <div class="bus-coop-column1">
+            <div class="bus-op-form-row">
+              <div class="bus-op-column1">
                 <label for="password">Password:</label>
               </div>
-              <div class="bus-coop-column2">
+              <div class="bus-op-column2">
                 <input type="password" id="password" name="password" required>
               </div>
             </div>
-            <div class="bus-coop-form-row">
-              <div class="bus-coop-column1">
+            <div class="bus-op-form-row">
+              <div class="bus-op-column1">
                 <label for="confirm-password">Confirm Password:</label>
               </div>
-              <div class="bus-coop-column2">
+              <div class="bus-op-column2">
                 <input type="password" id="confirm-password" name="confirm-password" required>
               </div>
             </div>
-            <div class="bus-coop-form-row">
-              <div class="bus-coop-column1">
+            <div class="bus-op-form-row">
+              <div class="bus-op-column1">
                 <label for="phoneNum">Number:</label>
               </div>
-              <div class="bus-coop-column2">
+              <div class="bus-op-column2">
                 <input type="text" id="phoneNum" name="phoneNum" required>
               </div>
             </div>
             <div class="divider"></div>
 
-            <h3 style="text-align: center;">Bus Cooperative Details: </h3>
-
-            <img src="/Admin/images/upload_company_picture.png" alt="bus cooperative" id="busCoopImgBtn">
-            <input type='file' id="addCoopPhotoBtn" />
-            <div class="divider"></div>
-
-            <div class="bus-coop-form-row">
-              <div class="bus-coop-column1">
-                <label for="companyName">Company Name:</label>
-              </div>
-              <div class="bus-coop-column2">
-                <input type="text" id="companyName" name="companyName" required>
-              </div>
-            </div>
-            <div class="bus-coop-form-row">
-              <div class="bus-coop-column1">
-                <label for="companyAddress">Company Address:</label>
-              </div>
-              <div class="bus-coop-column2">
-                <input type="text" id="companyAddress" name="companyAddress" required>
-              </div>
-            </div>
-            <div class="bus-coop-form-row">
-              <div class="bus-coop-column1">
-                <label for="companyDescription">Company Description:</label>
-              </div>
-              <div class="bus-coop-column2">
-                <textarea id="companyDescription" name="companyDescription" required></textarea>
-              </div>
-            </div>
-            <button type="submit" id="saveBusCoopBtn">SAVE</button>
+          
+            <button type="submit" id="saveBusopBtn">SAVE</button>
           </form>
 
 
@@ -154,44 +125,44 @@
       </div>
     </div>
 
-    <div id="coopModal" class="modal">
+    <div id="opModal" class="modal">
       <!-- Modal content -->
       <div class="modal-content">
         <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-between;">
-          <button id="deleteCoopBtn">Delete</button>
-          <span class="coopClose">&times;</span>
+          <button id="deleteopBtn">Delete</button>
+          <span class="opClose">&times;</span>
         </div>
         <div class="divider"></div>
 
-          <img src="./images/profile.png" alt="bus cooperative user" id="busUserCoopImg">
-          <div class="bus-coop-detail" style="flex-direction: row;">
-            <div class="bus-coop-detail-row">            
-              <label for="coopId">ID:</label>
-              <label for="coopFullname">Fullname:</label>
-              <label for="coopEmail">Email:</label>
-              <label for="coopContact">Contact:</label>
+          <img src="./images/profile.png" alt="bus operator user" id="busUseropImg">
+          <div class="bus-op-detail" style="flex-direction: row;">
+            <div class="bus-op-detail-row">            
+              <label for="opId">ID:</label>
+              <label for="opFullname">Fullname:</label>
+              <label for="opEmail">Email:</label>
+              <label for="opContact">Contact:</label>
             </div>
-            <div class="bus-coop-detail-row">
-              <span id="coopId">Loading...</span>
-              <span id="coopFullnameSpan">Loadin...</span>
-              <span id="coopEmail">Loading...</span>
-              <span id="coopContact">Loading...</span>
+            <div class="bus-op-detail-row">
+              <span id="opId">Loading...</span>
+              <span id="opFullnameSpan">Loadin...</span>
+              <span id="opEmail">Loading...</span>
+              <span id="opContact">Loading...</span>
             </div>
           </div>
 
           <div class="divider"></div>
 
-          <img src="./images/pitam-logo.png" alt="bus cooperative" id="busCoopImg">
-          <div class="bus-coop-detail" style="flex-direction: row;">
-            <div class="bus-coop-detail-row">            
-              <label for="coopName">Company Name:</label>
-              <label for="coopAddress">Company Address:</label>
-              <label for="coopDesc">Company Description:</label>
+          <img src="./images/pitam-logo.png" alt="bus operator" id="busopImg">
+          <div class="bus-op-detail" style="flex-direction: row;">
+            <div class="bus-op-detail-row">            
+              <label for="opName">Company Name:</label>
+              <label for="opAddress">Company Address:</label>
+              <label for="opDesc">Company Description:</label>
             </div>
-            <div class="bus-coop-detail-row">            
-              <span id="coopName">Loading...</span>
-              <span id="coopAddress">Loading...</span>
-              <span id="coopDesc">Loading...</span>
+            <div class="bus-op-detail-row">            
+              <span id="opName">Loading...</span>
+              <span id="opAddress">Loading...</span>
+              <span id="opDesc">Loading...</span>
             </div>
           </div>
           <div class="divider"></div>
@@ -208,7 +179,7 @@
         <div class="container">
 
           <div class="card">
-            <h3 style="margin-bottom: 50px;">Bus Organizations</h3>
+            <h3 style="margin-bottom: 50px;">Bus Operators</h3>
             <div class="bus-org-content">
             </div>
           </div>
@@ -238,10 +209,10 @@
               </div>
             </div>
 
-            <span>Bus Cooperative</span>
+            <span>Bus Operator</span>
 
-            <button class="button" id="addBusCoopBtn"><i class="fa-solid fa-plus"></i>Add Bus Coop</button>
-            <div class="bus-coop-container">
+            <button class="button" id="addBusopBtn"><i class="fa-solid fa-plus"></i>Add Bus Operator</button>
+            <div class="bus-op-operators">
             </div>
 
           </div>
