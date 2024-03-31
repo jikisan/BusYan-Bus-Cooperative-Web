@@ -3,6 +3,5 @@ export const DBPaths = {
     BUS_COOP: 'BusCooperatives',
     BUS_OPS: 'BusOperators',
     ADMIN: 'Admin',
-    BUS_OPERATIOR: 'BusOperators',
-    NOTIFICATION: 'LoginNotification'
+    LOGIN_NOTIF: 'LoginNotification'
 }

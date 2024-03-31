@@ -11,9 +11,9 @@ document.getElementById('loginMainForm').addEventListener('submit', loginUser);
 
 function loginUser(event) {
     event.preventDefault();
-    
+
     let accountExists = false; // Flag to track if the account exists
-    
+
     const userRef = database.ref(`${DBPaths.BUS_COOP}`);
     const username = usernameInput.value;
     const password = passwordInput.value;
@@ -26,12 +26,13 @@ function loginUser(event) {
             const dbPassword = data.password; // Access password from user data
 
             if (username === dbEmail && password == dbPassword) {
-              window.location.href = '/Bus Cooperative/admin.html'; // Redirect if credentials match
-              accountExists = true; // Set flag to true if account exists
-              data["key"] = userKey;
-              console.log(data);
-              sessionStorage.setItem('currentUser', JSON.stringify(data));
-              return;
+                saveLoginTime(userKey, data);
+                window.location.href = '/Bus Cooperative/admin.html'; // Redirect if credentials match
+                accountExists = true; // Set flag to true if account exists
+                data["key"] = userKey;
+                console.log(data);
+                sessionStorage.setItem('currentUser', JSON.stringify(data));
+                return;
             }
 
             return
@@ -41,7 +42,27 @@ function loginUser(event) {
             alert('Account does not exist');
         }
     });
+}
 
+function saveLoginTime(userId, data) {
 
+    const loginDetailsData = {
+        id: userId,
+        fullName: data.fullName,
+        role: 'cooperative',
+        loginDateTime: new Date().toISOString()
+    }
+
+    const userRef = database.ref(`${DBPaths.LOGIN_NOTIF}`);
+
+    userRef.push(loginDetailsData)
+        .then(() => {
+            hideAddBusCoopModal();
+            // getBusCoop();
+        })
+        .catch(error => {
+            // An error occurred while setting data
+            console.error('Error setting data:', error);
+        });
 }
 

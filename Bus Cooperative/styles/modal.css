@@ -36,7 +36,7 @@
 
 /* The Close Button */
 .close,
-.coopClose {
+.opClose {
     width: fit-content;
     height: fit-content;
     align-self: flex-end;
@@ -50,8 +50,8 @@
 
 .close:hover,
 .close:focus,
-.coopClose:hover,
-.coopClose:focus {
+.opClose:hover,
+.opClose:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
@@ -83,7 +83,7 @@
     border: 1px solid black;
 }
 
-#busCoopImg {
+#busopImg {
     align-self: center;
     height: 300px;
     width: fit-content;
@@ -103,7 +103,7 @@ input[type="file"] {
     margin-bottom: 50px;
 }
 
-.modal-content>div>form>#busCoopUserPhoto {
+.modal-content>div>form>#busopUserPhoto {
     align-self: center;
     border-radius: 50%;
     width: 150px;
@@ -111,21 +111,21 @@ input[type="file"] {
     border: 2px solid white;
 }
 
-.bus-coop-form-row {
+.bus-op-form-row {
     display: flex;
     flex-direction: row;
     width: 100%;
     justify-content: center;
 }
 
-.bus-coop-column1 {
+.bus-op-column1 {
     display: flex;
     justify-content: flex-start;
     width: 20%;
     margin: 5px 15px 5px 15px;
 }
 
-.bus-coop-column2 {
+.bus-op-column2 {
     display: flex;
     justify-content: flex-start;
     width: 80%;
@@ -133,23 +133,23 @@ input[type="file"] {
     margin: 5px 15px 5px 15px;
 }
 
-.bus-coop-column1 label {
+.bus-op-column1 label {
     font-weight: bold;
     margin-left: 50px;
 }
 
-.bus-coop-column2 input {
+.bus-op-column2 input {
     width: 100%;
     border: 1px solid #000;
 }
 
-.bus-coop-column2 textarea {
+.bus-op-column2 textarea {
     width: 100%;
     height: 100px;
     border: 1px solid #000;
 }
 
-#saveBusCoopBtn {
+#saveBusopBtn {
     height: fit-content;
     width: 300px;
     align-self: center;
@@ -164,7 +164,7 @@ input[type="file"] {
     cursor: pointer;
 }
 
-#saveBusCoopBtn:hover {
+#saveBusopBtn:hover {
     background-color: #0056b3;
 }
 
@@ -175,7 +175,7 @@ input[type="file"] {
     border-top: 1px solid #bbb;
 }
 
-.bus-coop-detail {
+.bus-op-detail {
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -183,21 +183,21 @@ input[type="file"] {
     padding: 15px;
 }
 
-.bus-coop-detail-row {
+.bus-op-detail-row {
     width: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.bus-coop-detail-row label {
+.bus-op-detail-row label {
     min-width: 100px;
     width: fit-content;
     align-self: flex-start;
     margin: 10px;
 }
 
-.bus-coop-detail-row span {
+.bus-op-detail-row span {
     min-width: 100px;
     width: fit-content;
     align-self: flex-start;
@@ -206,7 +206,7 @@ input[type="file"] {
     font-weight: bold;
 }
 
-#deleteCoopBtn {
+#deleteopBtn {
     height: fit-content;
     width: fit-content;
     outline: none;

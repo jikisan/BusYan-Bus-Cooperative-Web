@@ -4,29 +4,28 @@ import { DBPaths } from '/Bus Cooperative/js/DB.js';
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
-let busOrgArray = [];
+let busOpArray = [];
 
-document.addEventListener('DOMContentLoaded', generateBusOrganizations);
+document.addEventListener('DOMContentLoaded', generateBusOperators);
 
-function generateBusOrganizations() {
+function generateBusOperators() {
     const busOrgContainer = document.querySelector('.bus-org-content');
 
     busOrgContainer.innerHTML = "";
-    busOrgArray = [];
+    busOpArray = [];
 
-    const coopRef = database.ref(`${DBPaths.BUS_OPS}`);
+    const opRef = database.ref(`${DBPaths.BUS_OPS}`);
 
-    coopRef.once('value',
+    opRef.once('value',
         (snapshot) => {
-            snapshot.forEach((coop) => {
+            snapshot.forEach((op) => {
 
-                const coopKey = coop.key;
-                const coopData = coop.val();
-                coopData["key"] = coopKey;
-                busOrgArray.push(coopData);
+                const opKey = op.key;
+                const opData = op.val();
+                opData["key"] = opKey;
+                busOpArray.push(opData);
 
-
-                createBusOrgCard(coopData);
+                createBusOrgCard(opData);
             });
 
             generateChart(snapshot);
@@ -36,9 +35,9 @@ function generateBusOrganizations() {
     
 }
 
-function createBusOrgCard(coopData) {
+function createBusOrgCard(opData) {
     const parentDiv = document.querySelector('.bus-org-content');
-    const busOrg = coopData.companyName;
+    const busOrg = opData.fullName;
 
     // Create the elements
     const cardDiv = document.createElement('div');
