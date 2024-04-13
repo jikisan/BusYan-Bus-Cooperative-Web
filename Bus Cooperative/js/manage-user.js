@@ -19,6 +19,8 @@ const phoneNumInput = document.getElementById('phoneNum');
 
 const saveBusOpBtn = document.getElementById('saveBusopBtn');
 
+const table = document.getElementById("operators-table");
+
 let fileNameUserPhoto;
 let fileUserPhoto;
 let busOpArray = [];
@@ -31,8 +33,7 @@ document.addEventListener('DOMContentLoaded', getBusOperators);
 
 function getBusOperators() {
     
-    const busCoopContainer = document.querySelector('.bus-op-operators');
-    busCoopContainer.innerHTML = "";
+    table.innerHTML = "";
     busOpArray = [];
     showLoader();
 
@@ -67,8 +68,6 @@ function addOperatorToTable(operator) {
     const pictureSrc = operator.imageUrl;
     const password = operator.password;
     const dateCreated = convertToDesiredFormat(operator.datetimeAdded);
-
-    const table = document.getElementById("operators-table");
 
     const newRow = document.createElement("tr");
 
@@ -119,7 +118,7 @@ function addOperatorToTable(operator) {
     // Add event listener for editing
     editLink.addEventListener("click", function() {
         // Call edit function here
-        editOperator(id);
+        editOperator(operator);
     });
 
     // Delete icon
@@ -145,17 +144,23 @@ function addOperatorToTable(operator) {
 }
 
 // Function to handle edit operator
-function editOperator(operatorId) {
+function editOperator(operator) {
     // Implement edit functionality here
-    console.log("Editing operator with ID:", operatorId);
+    showAddBusOpModal();
+
+    busOpUserPhoto.src = operator.imageUrl;
+    opFullnameInput.value = operator.fullName;
+    opEmailInput.value = operator.email;
+    passwordInput.value = operator.password;
+    confirmPasswordInput.value = operator.password;
+    phoneNumInput.value = operator.phoneNum;
 }
 
 // Function to handle delete operator
 function deleteOperator(operatorId) {
     // Implement delete functionality here
-    console.log("Deleting operator with ID:", operatorId);
+    deleteBusOp(operatorId);
 }
-
 
 function addBusOperator(event) {
     event.preventDefault();
@@ -315,9 +320,25 @@ function convertToDesiredFormat(dateString) {
       // Handle invalid date format errors
       return "Invalid date format";
     }
-  }
+}
   
+function deleteBusOp(key) {
 
+    const isConfirmed = window.confirm("Are you sure you want to remove this account?");
+
+    if (isConfirmed) {
+        const dbRef = firebase.database().ref(`${DBPaths.BUS_OPS}/${key}`);
+            
+        dbRef.remove()
+            .then(() => {
+                console.log('User data deleted successfully.');   
+                getBusOperators();                
+            })
+            .catch((error) => {
+                console.error('Error deleting user data:', error);
+            });
+    }  
+}
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
     if (event.target == modal) {
