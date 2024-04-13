@@ -21,10 +21,141 @@ const saveBusOpBtn = document.getElementById('saveBusopBtn');
 
 let fileNameUserPhoto;
 let fileUserPhoto;
+let busOpArray = [];
 
 addBusopBtn.addEventListener('click', showAddBusOpModal);
 addBusopForm.addEventListener('submit', addBusOperator);
 coopCloseBtn.addEventListener('click', hideAddBusCoopModal);
+
+document.addEventListener('DOMContentLoaded', getBusOperators);
+
+function getBusOperators() {
+    
+    const busCoopContainer = document.querySelector('.bus-op-operators');
+    busCoopContainer.innerHTML = "";
+    busOpArray = [];
+    showLoader();
+
+    const opRef = database.ref(`${DBPaths.BUS_OPS}`);
+
+    opRef.once('value',
+        (snapshot) => {
+            snapshot.forEach((op) => {
+
+                const opKey = op.key;
+                const opData = op.val();
+                opData["key"] = opKey;
+                busOpArray.push(opData);
+
+                const companyName = opData.companyName;
+                const opImage = opData.imgUrl;
+
+                addOperatorToTable(opData);
+            });
+
+            hideLoader();
+
+        }
+    )
+}
+
+function addOperatorToTable(operator) {
+    const id = operator.key;
+    const fullname = operator.fullName;
+    const email = operator.email;
+    const contactNo = operator.phoneNum;
+    const pictureSrc = operator.imageUrl;
+    const password = operator.password;
+    const dateCreated = convertToDesiredFormat(operator.datetimeAdded);
+
+    const table = document.getElementById("operators-table");
+
+    const newRow = document.createElement("tr");
+
+    const idCell = document.createElement("td");
+    idCell.textContent = id;
+    newRow.appendChild(idCell);
+
+    const fullnameCell = document.createElement("td");
+    fullnameCell.textContent = fullname;
+    newRow.appendChild(fullnameCell);
+
+    const emailCell = document.createElement("td");
+    emailCell.textContent = email;
+    newRow.appendChild(emailCell);
+
+    const contactNoCell = document.createElement("td");
+    contactNoCell.textContent = contactNo;
+    newRow.appendChild(contactNoCell);
+
+    const pictureCell = document.createElement("td");
+    const pictureImg = document.createElement("img");
+    pictureImg.src = pictureSrc;
+    pictureImg.alt = "img";
+    pictureCell.appendChild(pictureImg);
+    newRow.appendChild(pictureCell);
+
+    const passwordCell = document.createElement("td");
+    passwordCell.textContent = password;
+    newRow.appendChild(passwordCell);
+
+    const dateCreatedCell = document.createElement("td");
+    dateCreatedCell.textContent = dateCreated;
+    newRow.appendChild(dateCreatedCell);
+
+    const actionsCell = document.createElement("td");
+
+    // Edit icon
+    const editLink = document.createElement("a");
+    editLink.href = "#";
+    editLink.setAttribute("data-target", "edit-operator");
+    const editIcon = document.createElement("i");
+    editIcon.className = "fa-solid fa-user-pen edit";
+    editLink.appendChild(editIcon);
+    const editSpan = document.createElement("span");
+    editLink.appendChild(editSpan);
+    actionsCell.appendChild(editLink);
+
+    // Add event listener for editing
+    editLink.addEventListener("click", function() {
+        // Call edit function here
+        editOperator(id);
+    });
+
+    // Delete icon
+    const deleteLink = document.createElement("a");
+    deleteLink.href = "#";
+    deleteLink.setAttribute("data-target", "delete-operator");
+    const deleteIcon = document.createElement("i");
+    deleteIcon.className = "fa-solid fa-eraser delete";
+    deleteLink.appendChild(deleteIcon);
+    const deleteSpan = document.createElement("span");
+    deleteLink.appendChild(deleteSpan);
+    actionsCell.appendChild(deleteLink);
+
+    // Add event listener for deleting
+    deleteLink.addEventListener("click", function() {
+        // Call delete function here
+        deleteOperator(id);
+    });
+
+    newRow.appendChild(actionsCell);
+
+    table.appendChild(newRow);
+}
+
+// Function to handle edit operator
+function editOperator(operatorId) {
+    // Implement edit functionality here
+    console.log("Editing operator with ID:", operatorId);
+}
+
+// Function to handle delete operator
+function deleteOperator(operatorId) {
+    // Implement delete functionality here
+    console.log("Deleting operator with ID:", operatorId);
+}
+
 
 function addBusOperator(event) {
     event.preventDefault();
@@ -88,7 +219,7 @@ function createAccount(busOpUserImgUrl) {
     userRef.set(busOpData)
         .then(() => {
             hideAddBusCoopModal();
-            // getBusCoop();
+            getBusOperators();
         })
         .catch(error => {
             // An error occurred while setting data
@@ -167,6 +298,25 @@ function hideLoader() {
         loader.style.display = "none";
     }, 2000); // 3000 milliseconds = 3 seconds
 }
+
+function convertToDesiredFormat(dateString) {
+    try {
+      // Parse the date string with timezone offset using Date object
+      const date = new Date(dateString);
+  
+      // Year, month (0-indexed), day
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+  
+      // Format the date in YYYY/MM/DD
+      return `${year}/${month}/${day}`;
+    } catch (error) {
+      // Handle invalid date format errors
+      return "Invalid date format";
+    }
+  }
+  
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {

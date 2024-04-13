@@ -27,7 +27,7 @@ function loginUser(event) {
 
             if (username === dbEmail && password == dbPassword) {
                 saveLoginTime(userKey, data);
-                window.location.href = '/Bus Cooperative/admin.html'; // Redirect if credentials match
+                window.location.href = '/Bus Cooperative/bus-coop.html'; // Redirect if credentials match
                 accountExists = true; // Set flag to true if account exists
                 data["key"] = userKey;
                 console.log(data);
