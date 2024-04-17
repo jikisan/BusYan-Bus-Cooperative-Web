@@ -63,7 +63,9 @@
       <div class="modal-content">
         <span class="close">&times;</span>
         <div>
-          <h2>Add Bus Operator</h2>
+          <div style="display: flex; flex-direction: row;">
+            <h2 id="manageUserAction"></h2><h2 style="margin-left: 5px;"> Bus Operator</h2>
+          </div>
           <div class="divider"></div>
 
           <form action="#" id="addBusopForm">
@@ -214,29 +216,6 @@
             <button class="button" id="addBusopBtn"><i class="fa-solid fa-plus"></i>Add Bus Operator</button>
             <div class="bus-op-operators"></div>
               <table id="operators-table">
-                <tr>
-                  <th>ID no.</th>
-                  <th>Fullname</th>
-                  <th>Email</th>
-                  <th>Contact No.</th>
-                  <th>Picture</th>
-                  <th>Password</th>
-                  <th>Date Created</th>
-                  <th>Actions</th>
-                </tr>
-                <!-- <tr>
-                  <td>13654654</td>
-                  <td>David brigs</td>
-                  <td>davidbrigs@gmail.com</td>
-                  <td>091546462333</td>
-                  <td><img src="./images/profile.png" alt="img"></td>
-                  <td>pasword123</td>
-                  <td>2024/07/28</td>
-                  <td>
-                    <a href="#" data-target="edit-operator"><i class="fa-solid fa-user-pen edit"></i></i><span></span></a>
-                    <a href="#" data-target="delete-operator"><i class="fa-solid fa-eraser delete"></i></i></i><span></span></a>
-                  </td>
-                </tr> -->
               </table>
           </div>
         </div>
@@ -246,9 +225,7 @@
         <h1 class="header">Notifications</h1>
         <div class="container">
           <div class="card" >
-            <div class="bus-org-content">
-              <div class="notification-items"><i class="fa-regular fa-user"></i><span class="notif-item">Notification 1</span></div>
-              <div class="notification-items"><i class="fa-regular fa-user"></i><span class="notif-item">Notification 2</span></div>
+            <div class="bus-notif-content">
             </div>
           </div>
         </div>

@@ -6,8 +6,12 @@ const database = firebase.database();
 const loader = document.querySelector('.loader-container');
 const modal = document.getElementById("myModal");
 
+const searchInput = document.getElementById("searchInput");
+
 const addBusopBtn = document.getElementById('addBusopBtn');
 const coopCloseBtn = document.querySelector('.close');
+
+const busopUserPhotoBtn = document.querySelector('#busopUserPhotoBtn');
 
 const addBusopForm = document.getElementById('addBusopForm');
 const busOpUserPhoto = document.getElementById('busopUserPhoto');
@@ -21,19 +25,22 @@ const saveBusOpBtn = document.getElementById('saveBusopBtn');
 
 const table = document.getElementById("operators-table");
 
+let manageUserAction = document.getElementById("manageUserAction");
+let operatorId;
 let fileNameUserPhoto;
 let fileUserPhoto;
 let busOpArray = [];
 
-addBusopBtn.addEventListener('click', showAddBusOpModal);
+addBusopBtn.addEventListener('click', addOperator);
 addBusopForm.addEventListener('submit', addBusOperator);
 coopCloseBtn.addEventListener('click', hideAddBusCoopModal);
+searchInput.addEventListener('input', handleSearchInput);
 
 document.addEventListener('DOMContentLoaded', getBusOperators);
 
 function getBusOperators() {
-    
-    table.innerHTML = "";
+
+    createTableHeader();
     busOpArray = [];
     showLoader();
 
@@ -60,7 +67,36 @@ function getBusOperators() {
     )
 }
 
+function createTableHeader() {
+
+    table.innerHTML = "";
+    const tr = document.createElement("tr");
+
+    // Array of column headers
+    const headers = [
+        "ID no.",
+        "Fullname",
+        "Email",
+        "Contact No.",
+        "Picture",
+        "Password",
+        "Date Created",
+        "Actions"
+    ];
+
+    // Create <th> elements for each column header and append them to the <tr> element
+    headers.forEach(headerText => {
+        const th = document.createElement("th");
+        th.textContent = headerText;
+        tr.appendChild(th);
+    });
+
+    table.appendChild(tr);
+
+}
+
 function addOperatorToTable(operator) {
+
     const id = operator.key;
     const fullname = operator.fullName;
     const email = operator.email;
@@ -116,7 +152,7 @@ function addOperatorToTable(operator) {
     actionsCell.appendChild(editLink);
 
     // Add event listener for editing
-    editLink.addEventListener("click", function() {
+    editLink.addEventListener("click", function () {
         // Call edit function here
         editOperator(operator);
     });
@@ -133,7 +169,7 @@ function addOperatorToTable(operator) {
     actionsCell.appendChild(deleteLink);
 
     // Add event listener for deleting
-    deleteLink.addEventListener("click", function() {
+    deleteLink.addEventListener("click", function () {
         // Call delete function here
         deleteOperator(id);
     });
@@ -143,11 +179,40 @@ function addOperatorToTable(operator) {
     table.appendChild(newRow);
 }
 
+function handleSearchInput() {
+
+    createTableHeader();
+
+    const searchTerm = searchInput.value.toLowerCase().trim();
+
+    // Filter data based on search term
+    const results = busOpArray.filter(item => item.fullName.toLowerCase().includes(searchTerm));
+    // Render search results
+    renderResults(results);
+}
+
+function renderResults(results) {
+    const searchResults = document.getElementById("searchResults");
+    searchResults.innerHTML = "";
+
+    results.forEach(result => {
+
+        addOperatorToTable(result);
+    });
+}
+
+function addOperator() {
+    manageUserAction.textContent = 'Add';
+    showAddBusOpModal();
+}
+
 // Function to handle edit operator
 function editOperator(operator) {
-    // Implement edit functionality here
-    showAddBusOpModal();
 
+    manageUserAction.textContent = 'Edit';
+
+    showAddBusOpModal();
+    operatorId = operator.key;
     busOpUserPhoto.src = operator.imageUrl;
     opFullnameInput.value = operator.fullName;
     opEmailInput.value = operator.email;
@@ -168,8 +233,16 @@ function addBusOperator(event) {
     const isConfirmed = window.confirm("Are you sure all information are correct?");
 
     if (isConfirmed && busOpDetailsAreValid()) {
+        const action = manageUserAction.textContent;
+
         showLoader();
-        uploadBusOpUserImage();    
+
+        if (action === 'Add') {
+            uploadBusOpUserImage();
+        }
+        if (action === 'Edit') {
+            validateImage()
+        }
     }
 
 }
@@ -199,7 +272,15 @@ function uploadBusOpUserImage() {
             // Handle successful upload
             task.snapshot.ref.getDownloadURL().then(function (downloadURL) {
                 console.log(downloadURL);
-                createAccount(downloadURL);
+                const action = manageUserAction.textContent;
+
+                if (action === 'Add') {
+                    createAccount(downloadURL);
+                }
+                if (action === 'Edit') {
+                    updateAccount(downloadURL);
+                }
+
             });
         }
     );
@@ -230,7 +311,43 @@ function createAccount(busOpUserImgUrl) {
             // An error occurred while setting data
             console.error('Error setting data:', error);
         });
-            
+
+    hideLoader();
+}
+
+function updateAccount(busOpUserImgUrl) {
+    const busOpData = {
+        fullName: opFullnameInput.value,
+        email: opEmailInput.value,
+        password: passwordInput.value,
+        phoneNum: phoneNumInput.value,
+        imageUrl: busOpUserImgUrl,
+
+    };
+
+    const userRef = firebase.database().ref(`${DBPaths.BUS_OPS}/${operatorId}`);
+    userRef.update(busOpData)
+        .then(() => {
+            hideAddBusCoopModal();
+            getBusOperators();
+        })
+        .catch(error => {
+            console.error('Error updating multiple fields:', error);
+        });
+
+}
+
+function validateImage() {
+
+    if (busopUserPhotoBtn && (busopUserPhotoBtn.files.length === 0 || busopUserPhotoBtn.value === '')) {
+        const imgeSrc = busOpUserPhoto.src;
+        updateAccount(imgeSrc);
+    }
+    else {
+        uploadBusOpUserImage();
+        console.log('With Photo');
+    }
+
     hideLoader();
 }
 
@@ -241,13 +358,13 @@ function busOpDetailsAreValid() {
 
     // Validate Email
     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(opEmailInput.value.trim());
-    
+
     // Validate Password
     const passwordValid = passwordInput.value.trim().length >= 8;
-    
+
     // Validate Confirm Password
     const confirmPasswordValid = confirmPasswordInput.value.trim() === passwordInput.value.trim();
-    
+
     // Validate Phone Number
     const phoneNumValid = /^\d{11}$/.test(phoneNumInput.value.trim());
 
@@ -299,45 +416,45 @@ function showLoader() {
 }
 
 function hideLoader() {
-    setTimeout(function() {
+    setTimeout(function () {
         loader.style.display = "none";
     }, 2000); // 3000 milliseconds = 3 seconds
 }
 
 function convertToDesiredFormat(dateString) {
     try {
-      // Parse the date string with timezone offset using Date object
-      const date = new Date(dateString);
-  
-      // Year, month (0-indexed), day
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-  
-      // Format the date in YYYY/MM/DD
-      return `${year}/${month}/${day}`;
+        // Parse the date string with timezone offset using Date object
+        const date = new Date(dateString);
+
+        // Year, month (0-indexed), day
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+
+        // Format the date in YYYY/MM/DD
+        return `${year}/${month}/${day}`;
     } catch (error) {
-      // Handle invalid date format errors
-      return "Invalid date format";
+        // Handle invalid date format errors
+        return "Invalid date format";
     }
 }
-  
+
 function deleteBusOp(key) {
 
     const isConfirmed = window.confirm("Are you sure you want to remove this account?");
 
     if (isConfirmed) {
         const dbRef = firebase.database().ref(`${DBPaths.BUS_OPS}/${key}`);
-            
+
         dbRef.remove()
             .then(() => {
-                console.log('User data deleted successfully.');   
-                getBusOperators();                
+                console.log('User data deleted successfully.');
+                getBusOperators();
             })
             .catch((error) => {
                 console.error('Error deleting user data:', error);
             });
-    }  
+    }
 }
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
@@ -347,7 +464,8 @@ window.onclick = function (event) {
 }
 
 window.addEventListener('load', function () {
-    document.querySelector('#busopUserPhotoBtn').addEventListener('change', function (event) {
+
+    busopUserPhotoBtn.addEventListener('change', function (event) {
         if (this.files && this.files[0]) {
             busOpUserPhoto.onload = () => {
                 URL.revokeObjectURL(busOpUserPhoto.src);
