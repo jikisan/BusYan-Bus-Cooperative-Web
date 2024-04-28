@@ -2,6 +2,7 @@ import { DBPaths } from '/Bus Cooperative/js/DB.js';
 import { convertToPascal, getCurrentDateTimeInMillis } from '/Bus Cooperative/utils/Utils.js';
 
 const database = firebase.database();
+const myData = JSON.parse(sessionStorage.getItem('currentUser'));
 
 const loader = document.querySelector('.loader-container');
 const modal = document.getElementById("myModal");
@@ -295,6 +296,7 @@ function createAccount(busOpUserImgUrl) {
         password: passwordInput.value,
         phoneNum: phoneNumInput.value,
         imageUrl: busOpUserImgUrl,
+        companyName: myData.companyName,
         datetimeAdded: new Date().toISOString()
     };
 
