@@ -297,6 +297,7 @@ function createAccount(busOpUserImgUrl) {
         phoneNum: phoneNumInput.value,
         imageUrl: busOpUserImgUrl,
         companyName: myData.companyName,
+        companyId: myData.key,
         datetimeAdded: new Date().toISOString()
     };
 

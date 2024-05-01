@@ -154,9 +154,14 @@ li {
   box-shadow: 5px 5px 15px lightgray;
   margin: 50px 20px;
   padding: 40px 20px;
-  overflow: hidden; /* Prevent content overflow */
+  overflow: auto; /* Prevent content overflow */
 }
 
 button:hover {
   background-color: #0056b3;
+}
+
+.notification .card {
+  max-height: calc(100vh - 200px);
+  overflow: auto;
 }
