@@ -59,7 +59,10 @@ function getBusOperators() {
                 const companyName = opData.companyName;
                 const opImage = opData.imgUrl;
 
-                addOperatorToTable(opData);
+                if (companyName === myData.companyName) {
+                    addOperatorToTable(opData);
+                }
+
             });
 
             hideLoader();

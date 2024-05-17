@@ -3,6 +3,7 @@ import { DBPaths } from '/Bus Cooperative/js/DB.js';
 
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
+const myData = JSON.parse(sessionStorage.getItem('currentUser'));
 
 let busOpArray = [];
 
@@ -23,16 +24,19 @@ function generateBusOperators() {
                 const opKey = op.key;
                 const opData = op.val();
                 opData["key"] = opKey;
-                busOpArray.push(opData);
 
-                createBusOrgCard(opData);
+                if (opData.companyName === myData.companyName) {
+                    busOpArray.push(opData);
+                    createBusOrgCard(opData);
+                }
+
             });
 
             generateChart(snapshot);
 
         }
     )
-    
+
 }
 
 function createBusOrgCard(opData) {
@@ -68,12 +72,12 @@ function generateChart(snapshot) {
     const noDataTextDisplayPlugin = {
         afterDraw: (chart) => {
 
-            const { ctx,  data } = chart;
+            const { ctx, data } = chart;
             const currentDataLength = data.datasets[0].data.length;
             const currentDataValue = data.datasets[0].data[0];
 
             //Check if dataset is empty
-            if(currentDataLength === 0 || currentDataValue === 0){
+            if (currentDataLength === 0 || currentDataValue === 0) {
                 const {
                     chartArea: { left, top, right, bottom },
                     ctx,
@@ -104,13 +108,13 @@ function generateChart(snapshot) {
             const currentDataValue = data.datasets[0].data[0];
 
             //Check if dataset is empty
-            if(currentDataValue !== 0){
+            if (currentDataValue !== 0) {
                 //Get the total of Alert data
                 const alertData = data.datasets[0].data;
                 const sum = alertData.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
                 ctx.save;
-                
+
                 //Locate and get the center axis of Canvas
                 const xCoor = chart.getDatasetMeta(0).data[0].x;
                 const yCoor = chart.getDatasetMeta(0).data[0].y;
@@ -136,7 +140,7 @@ function generateChart(snapshot) {
             maintainAspectRatio: false,
             animation: false,
             plugins: {
-                legend: {                     
+                legend: {
                     position: 'bottom'
                 },
                 colors: {
